@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    TF_WORKING_DIR: "env/dev/base-network"
+    TF_WORKING_DIR: "global/ci-cd/base-network"
 
 phases:
   install:
