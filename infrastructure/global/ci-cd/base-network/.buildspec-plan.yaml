@@ -15,7 +15,7 @@ phases:
   pre_build:
     commands: 
       - echo "Running Terraform plan"
-      - terraform plan -input-false -out=tf.plan.binary
+      - terraform plan -input=false -out=tf.plan.binary
       - terraform show -no-color -json tfplan.binary > tfplan.json
 
 artifacts:
