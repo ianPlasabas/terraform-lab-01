@@ -11,7 +11,7 @@ resource "aws_codebuild_project" "plan" {
 
   environment {
     compute_type = "BUILD_GENERAL1_SMALL"
-    image        = "aws/codebuild/standard:5.0"
+    image        = "aws/codebuild/standard:6.0"
     type         = "LINUX_CONTAINER"
   }
 
@@ -31,7 +31,7 @@ resource "aws_codebuild_project" "apply" {
 
   environment {
     compute_type = "BUILD_GENERAL1_SMALL"
-    image        = "aws/codebuild/standard:5.0"
+    image        = "aws/codebuild/standard:6.0"
     type         = "LINUX_CONTAINER"
   }
 
