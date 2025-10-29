@@ -10,42 +10,42 @@ resource "aws_codestarconnections_connection" "this" {
 # CodeBuild Projects
 #=================================================
 resource "aws_codebuild_project" "plan" {
-  name = "base-network-plan"
+  name         = "base-network-plan"
   service_role = "arn:aws:iam::772056227259:role/CodeBuildTerraformRole"
 
-  artifacts { 
-    type = "CODEPIPELINE" 
+  artifacts {
+    type = "CODEPIPELINE"
   }
 
   environment {
     compute_type = "BUILD_GENERAL1_SMALL"
-    image = "aws/codebuild/standard:5.0"
-    type = "LINUX_CONTAINER"
+    image        = "aws/codebuild/standard:5.0"
+    type         = "LINUX_CONTAINER"
   }
 
   source {
-    type = "CODEPIPELINE"
-    buildspec = file(".buildspecs-plan.yaml")
+    type      = "CODEPIPELINE"
+    buildspec = file(".buildspec-plan.yaml")
   }
 }
 
 resource "aws_codebuild_project" "apply" {
-  name = "base-network-apply"
+  name         = "base-network-apply"
   service_role = "arn:aws:iam::772056227259:role/CodeBuildTerraformRole"
 
-  artifacts { 
-    type = "NO_ARTIFACTS" 
+  artifacts {
+    type = "NO_ARTIFACTS"
   }
 
   environment {
     compute_type = "BUILD_GENERAL1_SMALL"
-    image = "aws/codebuild/standard:5.0"
-    type = "LINUX_CONTAINER"
+    image        = "aws/codebuild/standard:5.0"
+    type         = "LINUX_CONTAINER"
   }
 
   source {
-    type = "CODEPIPELINE"
-    buildspec = file(".buildspecs-apply.yaml")
+    type      = "CODEPIPELINE"
+    buildspec = file(".buildspec-apply.yaml")
   }
 }
 
@@ -71,9 +71,9 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
       output_artifacts = ["source_output"]
       configuration = {
-        ConnectionArn = aws_codestarconnections_connection.this.arn
+        ConnectionArn    = aws_codestarconnections_connection.this.arn
         FullRepositoryId = "ianPlasabas/terraform-lab-01"
-        BranchName = "main"
+        BranchName       = "main"
       }
     }
   }
@@ -81,11 +81,11 @@ resource "aws_codepipeline" "pipeline" {
   stage {
     name = "Plan"
     action {
-      name      = "Plan"
-      category  = "Build"
-      owner     = "AWS"
-      provider  = "CodeBuild"
-      version   = "1"
+      name             = "Plan"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
       input_artifacts  = ["source_output"]
       output_artifacts = ["plan_output"]
       configuration = {
@@ -116,7 +116,7 @@ resource "aws_codepipeline" "pipeline" {
       owner           = "AWS"
       provider        = "CodeBuild"
       version         = "1"
-      input_artifacts  = ["plan_output"]   # artifact with tfplan.binary
+      input_artifacts = ["plan_output"] # artifact with tfplan.binary
       configuration = {
         ProjectName = aws_codebuild_project.apply.name
       }
