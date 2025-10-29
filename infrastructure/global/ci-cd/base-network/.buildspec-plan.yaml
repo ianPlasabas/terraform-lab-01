@@ -14,6 +14,8 @@ phases:
 
   pre_build:
     commands: 
+      - echo "Changing directory to $TF_WORKING_DIR"
+      - cd $TF_WORKING_DIR
       - echo "Running Terraform plan"
       - terraform plan -input=false -out=tf.plan.binary
       - terraform show -no-color -json tfplan.binary > tfplan.json
