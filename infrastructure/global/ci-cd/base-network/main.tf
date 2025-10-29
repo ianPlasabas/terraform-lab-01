@@ -13,6 +13,7 @@ resource "aws_codebuild_project" "plan" {
     compute_type = "BUILD_GENERAL1_SMALL"
     image        = "aws/codebuild/standard:6.0"
     type         = "LINUX_CONTAINER"
+    privileged_mode = true
   }
 
   source {
@@ -33,6 +34,7 @@ resource "aws_codebuild_project" "apply" {
     compute_type = "BUILD_GENERAL1_SMALL"
     image        = "aws/codebuild/standard:6.0"
     type         = "LINUX_CONTAINER"
+    privileged_mode = true
   }
 
   source {
