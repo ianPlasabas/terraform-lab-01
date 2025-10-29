@@ -26,7 +26,7 @@ resource "aws_codebuild_project" "apply" {
   service_role = "arn:aws:iam::772056227259:role/CodeBuildTerraformRole"
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "CODEPIPELINE"
   }
 
   environment {
@@ -63,7 +63,7 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
       output_artifacts = ["source_output"]
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.this.arn
+        ConnectionArn    = data.terraform_remote_state.repo_connection.outputs.github_arn
         FullRepositoryId = "ianPlasabas/terraform-lab-01"
         BranchName       = "main"
       }
