@@ -1,0 +1,27 @@
+version: 0.2
+
+env:
+  variables:
+    TF_WORKING_DIR: "env/dev/base-network"
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+    commands:
+      - echo "Installing Terraform"
+      - wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip -O /tmp/terraform.zip
+      - unzip -o /tmp/terraform.zip -d /usr/local/bin
+      - terraform --version
+
+  pre_build:
+    commands: 
+      - echo "Running Terraform plan"
+      - terraform plan -input-false -out=tf.plan.binary
+      - terraform show -no-color -json tfplan.binary > tfplan.json
+
+artifacts:
+  files:
+    - global/ci-cd/base-network/tfplan.binary
+    - global/ci-cd/base-network/tfplan.json
+    
