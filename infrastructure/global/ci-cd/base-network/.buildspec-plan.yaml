@@ -23,4 +23,3 @@ artifacts:
     - global/ci-cd/base-network/tfplan.binary
     - global/ci-cd/base-network/tfplan.json
   discard-paths: no
-    
