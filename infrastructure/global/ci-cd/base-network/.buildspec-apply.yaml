@@ -19,12 +19,16 @@ phases:
       - unset AWS_PROFILE || true
       - unset AWS_DEFAULT_PROFILE || true
       - export AWS_DEFAULT_REGION=ap-southeast-1
-      - echo "Preparing working directory..."
-      - ls -la $CODEBUILD_SRC_DIR/plan_output/infrastructure/env/dev/base-network
-      - echo "Copying plan file into working directory"
-      - cp $CODEBUILD_SRC_DIR/plan_output/infrastructure/env/dev/base-network/$PLAN_FILE $CODEBUILD_SRC_DIR/infrastructure/env/dev/base-network/$PLAN_FILE
-      - cd $CODEBUILD_SRC_DIR/infrastructure/env/dev/base-network
+      - echo "Copying plan from plan_output to working dir..."
+      - mkdir -p "$CODEBUILD_SRC_DIR/$TF_WORKING_DIR"
+      - cp "${CODEBUILD_SRC_DIR_plan_output}/${TF_WORKING_DIR}/${PLAN_FILE}" "$CODEBUILD_SRC_DIR/${TF_WORKING_DIR}/${PLAN_FILE}" || \
+        cp "${CODEBUILD_SRC_DIR_plan_output}/${PLAN_FILE}" "$CODEBUILD_SRC_DIR/${TF_WORKING_DIR}/${PLAN_FILE}" || \
+        (echo "Plan file not found in plan_output; aborting" && exit 1)
+      - echo "Change to working dir"
+      - cd "$CODEBUILD_SRC_DIR/$TF_WORKING_DIR"
+      - pwd
       - ls -la
+      - echo "Initializing Terraform backend (reconfigure)..."
       - terraform init -input=false -reconfigure
 
   build:
