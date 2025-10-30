@@ -24,7 +24,7 @@ phases:
       - ls -la
       - terraform init -input=false -reconfigure
       - echo "Running Terraform plan"
-      - terraform plan -input=false -out=tf.plan.binary
+      - terraform plan -input=false -out=tfplan.binary
       - terraform show -no-color -json tfplan.binary > tfplan.json
 
 artifacts:
