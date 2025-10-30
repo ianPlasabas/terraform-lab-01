@@ -10,9 +10,9 @@ resource "aws_codebuild_project" "plan" {
   }
 
   environment {
-    compute_type = "BUILD_GENERAL1_SMALL"
-    image        = "aws/codebuild/standard:6.0"
-    type         = "LINUX_CONTAINER"
+    compute_type    = "BUILD_GENERAL1_SMALL"
+    image           = "aws/codebuild/standard:6.0"
+    type            = "LINUX_CONTAINER"
     privileged_mode = true
   }
 
@@ -31,9 +31,9 @@ resource "aws_codebuild_project" "apply" {
   }
 
   environment {
-    compute_type = "BUILD_GENERAL1_SMALL"
-    image        = "aws/codebuild/standard:6.0"
-    type         = "LINUX_CONTAINER"
+    compute_type    = "BUILD_GENERAL1_SMALL"
+    image           = "aws/codebuild/standard:6.0"
+    type            = "LINUX_CONTAINER"
     privileged_mode = true
   }
 
@@ -49,6 +49,24 @@ resource "aws_codebuild_project" "apply" {
 resource "aws_codepipeline" "pipeline" {
   name     = "base-network-pipeline"
   role_arn = "arn:aws:iam::772056227259:role/CodeBuildTerraformRole"
+  pipeline_type = "V2"
+
+  trigger {
+    provider_type = "CodeStarSourceConnection"
+
+    git_configuration {
+      source_action_name = "Source"
+
+      push {
+        branches {
+          includes = ["main"]
+        }
+        file_paths {
+          includes = ["infrastructure/env/dev/base-network/**"]
+        } 
+      }
+    }
+  }
 
   artifact_store {
     location = "terraform-artifact-0192731237"
@@ -65,9 +83,9 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
       output_artifacts = ["source_output"]
       configuration = {
-        ConnectionArn    = data.terraform_remote_state.repo_connection.outputs.github_arn
-        FullRepositoryId = "ianPlasabas/terraform-lab-01"
-        BranchName       = "main"
+        ConnectionArn        = data.terraform_remote_state.repo_connection.outputs.github_arn
+        FullRepositoryId     = "ianPlasabas/terraform-lab-01"
+        BranchName           = "main"
       }
     }
   }
@@ -112,7 +130,7 @@ resource "aws_codepipeline" "pipeline" {
       version         = "1"
       input_artifacts = ["source_output", "plan_output"] # artifact with tfplan.binary
       configuration = {
-        ProjectName = aws_codebuild_project.apply.name
+        ProjectName   = aws_codebuild_project.apply.name
         PrimarySource = "source_output"
       }
     }

@@ -5,6 +5,6 @@ data "terraform_remote_state" "repo_connection" {
     key          = "ci-cd/repo-connection/terraform.tfstate"
     region       = "ap-southeast-1"
     profile      = "plasabas-general-admin"
-    use_lockfile = true  
+    use_lockfile = true
   }
 }
