@@ -1,5 +1,5 @@
 module "vpc" {
-  source    = "git@github.com:ianPlasabas/terraform-network-module.git//vpc?ref=v1.0.0"
+  source    = "git::https://github.com/ianPlasabas/terraform-network-module.git//vpc?ref=v1.0.0"
   vpc_block = "10.16.0.0/16"
 
   subnets = {
@@ -13,7 +13,7 @@ module "vpc" {
 }
 
 module "web_routes" {
-  source = "git@github.com:ianPlasabas/terraform-network-module.git//routes?ref=v1.0.0"
+  source = "git::https://github.com/ianPlasabas/terraform-network-module.git//routes?ref=v1.0.0"
 
   routes = {
     igw_route = {
@@ -25,7 +25,7 @@ module "web_routes" {
 }
 
 module "app_routes" {
-  source = "git@github.com:ianPlasabas/terraform-network-module.git//routes?ref=v1.0.0"
+  source = "git::https://github.com/ianPlasabas/terraform-network-module.git//routes?ref=v1.0.0"
 
   routes = {
     nat_route_a = {
@@ -42,7 +42,7 @@ module "app_routes" {
 }
 
 module "db" {
-  source = "git@github.com:ianPlasabas/terraform-network-module.git//routes?ref=v1.0.0"
+  source = "git::https://github.com/ianPlasabas/terraform-network-module.git//routes?ref=v1.0.0"
 
   routes = {
     db_route_b = {
