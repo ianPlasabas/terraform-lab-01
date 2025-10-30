@@ -22,7 +22,7 @@ phases:
       - cd $TF_WORKING_DIR
       - pwd
       - ls -la
-      - terraform init -input=false -reconfigure
+      - terraform init -input=false
       - echo "Running Terraform plan"
       - terraform plan -input=false -out=tfplan.binary
       - terraform show -no-color -json tfplan.binary > tfplan.json

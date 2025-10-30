@@ -30,7 +30,7 @@ phases:
       - ls -la
 
       - echo "Initializing Terraform"
-      - terraform init -input=false -reconfigure
+      - terraform init -input=false
 
   build:
     commands:
