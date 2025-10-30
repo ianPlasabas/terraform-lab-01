@@ -8,7 +8,7 @@ env:
 phases:
   install: 
     commands: 
-      - echo "Installing Terraform..."
+      - echo "Installing Terraform"
       - wget https://releases.hashicorp.com/terraform/1.13.4/terraform_1.13.4_linux_amd64.zip -O /tmp/terraform.zip
       - unzip -o /tmp/terraform.zip -d /usr/local/bin
       - terraform -version
@@ -19,21 +19,22 @@ phases:
       - unset AWS_PROFILE || true
       - unset AWS_DEFAULT_PROFILE || true
       - export AWS_DEFAULT_REGION=ap-southeast-1
-      - echo "Copying plan from plan_output to working dir..."
+
+      - echo "Copying Terraform plan"
       - mkdir -p "$CODEBUILD_SRC_DIR/$TF_WORKING_DIR"
-      - cp "${CODEBUILD_SRC_DIR_plan_output}/${TF_WORKING_DIR}/${PLAN_FILE}" "$CODEBUILD_SRC_DIR/${TF_WORKING_DIR}/${PLAN_FILE}" || \
-        cp "${CODEBUILD_SRC_DIR_plan_output}/${PLAN_FILE}" "$CODEBUILD_SRC_DIR/${TF_WORKING_DIR}/${PLAN_FILE}" || \
-        (echo "Plan file not found in plan_output; aborting" && exit 1)
-      - echo "Change to working dir"
+      - cp "$CODEBUILD_SRC_DIR_plan_output/$TF_WORKING_DIR/$PLAN_FILE" "$CODEBUILD_SRC_DIR/$TF_WORKING_DIR/$PLAN_FILE"
+
+      - echo "Switching to working directory"
       - cd "$CODEBUILD_SRC_DIR/$TF_WORKING_DIR"
       - pwd
       - ls -la
-      - echo "Initializing Terraform backend (reconfigure)..."
+
+      - echo "Initializing Terraform"
       - terraform init -input=false -reconfigure
 
   build:
     commands:
-      - echo "Applying saved plan..."
+      - echo "Applying saved plan"
       - terraform init -input=false
       - terraform apply -input=false tfplan.binary
 
