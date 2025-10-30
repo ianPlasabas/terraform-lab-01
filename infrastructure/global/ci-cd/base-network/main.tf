@@ -113,6 +113,7 @@ resource "aws_codepipeline" "pipeline" {
       input_artifacts = ["source_output", "plan_output"] # artifact with tfplan.binary
       configuration = {
         ProjectName = aws_codebuild_project.apply.name
+        PrimarySource = "source_output"
       }
     }
   }
