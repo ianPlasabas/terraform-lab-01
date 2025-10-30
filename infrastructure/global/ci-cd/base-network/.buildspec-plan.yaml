@@ -29,6 +29,6 @@ phases:
 
 artifacts:
   files:
-    - global/ci-cd/base-network/tfplan.binary
-    - global/ci-cd/base-network/tfplan.json
+    - infrastructure/env/dev/base-network/tfplan.binary
+    - infrastructure/env/dev/base-network/tfplan.json
   discard-paths: no
