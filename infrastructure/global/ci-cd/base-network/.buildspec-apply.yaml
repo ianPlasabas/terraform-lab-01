@@ -18,10 +18,13 @@ phases:
       - unset AWS_PROFILE || true
       - unset AWS_DEFAULT_PROFILE || true
       - export AWS_DEFAULT_REGION=ap-southeast-1
-      - echo "Prepraing Directory Path.."
-      - cd $TF_WORKING_DIR
-      - pwd
-      - ls -la
+      - echo "Listing root of source artifact"
+      - ls -la $CODEBUILD_SRC_DIR
+      - echo "List files in plan artifact directory (if present)"
+      - ls -la $CODEBUILD_SRC_DIR/plan_output || true
+      - echo "Copy plan into working dir"
+      - cp $CODEBUILD_SRC_DIR/plan_output/infrastructure/env/dev/base-network/tfplan.binary $CODEBUILD_SRC_DIR/infrastructure/env/dev/base-network/tfplan.binary || true
+      - cd $CODEBUILD_SRC_DIR/infrastructure/env/dev/base-network
       - terraform init -input=false -reconfigure
 
   build:
