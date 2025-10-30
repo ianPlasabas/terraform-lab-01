@@ -3,6 +3,7 @@ version: 0.2
 env:
   variables:  
     TF_WORKING_DIR: "infrastructure/env/dev/base-network"
+    PLAN_FILE: "tfplan.binary"
 
 phases:
   install: 
@@ -18,13 +19,12 @@ phases:
       - unset AWS_PROFILE || true
       - unset AWS_DEFAULT_PROFILE || true
       - export AWS_DEFAULT_REGION=ap-southeast-1
-      - echo "Listing root of source artifact"
-      - ls -la $CODEBUILD_SRC_DIR
-      - echo "List files in plan artifact directory (if present)"
-      - ls -la $CODEBUILD_SRC_DIR/plan_output || true
-      - echo "Copy plan into working dir"
-      - cp $CODEBUILD_SRC_DIR/plan_output/infrastructure/env/dev/base-network/tfplan.binary $CODEBUILD_SRC_DIR/infrastructure/env/dev/base-network/tfplan.binary || true
+      - echo "Preparing working directory..."
+      - ls -la $CODEBUILD_SRC_DIR/plan_output/infrastructure/env/dev/base-network
+      - echo "Copying plan file into working directory"
+      - cp $CODEBUILD_SRC_DIR/plan_output/infrastructure/env/dev/base-network/$PLAN_FILE $CODEBUILD_SRC_DIR/infrastructure/env/dev/base-network/$PLAN_FILE
       - cd $CODEBUILD_SRC_DIR/infrastructure/env/dev/base-network
+      - ls -la
       - terraform init -input=false -reconfigure
 
   build:
