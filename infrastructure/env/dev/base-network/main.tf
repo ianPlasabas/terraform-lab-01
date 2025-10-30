@@ -7,6 +7,7 @@ module "vpc" {
     web-2 = { cidr = "10.16.16.0/20", az = "ap-southeast-1b" }
     app-1 = { cidr = "10.16.32.0/20", az = "ap-southeast-1a" }
     app-2 = { cidr = "10.16.48.0/20", az = "ap-southeast-1b" }
+    db-1  = { cidr = "10.16.64.0/20", az = "ap-southeast-1a" }
     db-2  = { cidr = "10.16.80.0/20", az = "ap-southeast-1b" }
   }
 }
