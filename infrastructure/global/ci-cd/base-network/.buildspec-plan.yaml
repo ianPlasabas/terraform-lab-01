@@ -11,14 +11,15 @@ phases:
       - wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip -O /tmp/terraform.zip
       - unzip -o /tmp/terraform.zip -d /usr/local/bin
       - terraform --version
-      - pwd
-      - ls -la
-      - terraform init -input=false -reconfigure
+
 
   pre_build:
     commands: 
       - echo "Changing directory to $TF_WORKING_DIR"
       - cd $TF_WORKING_DIR
+      - pwd
+      - ls -la
+      - terraform init -input=false -reconfigure
       - echo "Running Terraform plan"
       - terraform plan -input=false -out=tf.plan.binary
       - terraform show -no-color -json tfplan.binary > tfplan.json
