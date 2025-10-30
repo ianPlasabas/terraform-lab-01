@@ -15,6 +15,9 @@ phases:
 
   pre_build:
     commands: 
+      - unset AWS_PROFILE || true
+      - unset AWS_DEFAULT_PROFILE || true
+      - export AWS_DEFAULT_REGION=ap-southeast-1
       - echo "Changing directory to $TF_WORKING_DIR"
       - cd $TF_WORKING_DIR
       - pwd

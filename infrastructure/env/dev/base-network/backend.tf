@@ -3,7 +3,7 @@ terraform {
     bucket       = "terraform-backend-89972986"
     key          = "base-network/terraform.tfstate"
     region       = "ap-southeast-1"
-    profile      = "plasabas-general-admin"
+    #profile      = "plasabas-general-admin"
     use_lockfile = true
   }
 }

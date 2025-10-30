@@ -12,7 +12,7 @@ terraform {
 
 provider "aws" {
   region  = "ap-southeast-1"
-  profile = "plasabas-general-admin"
+  #profile = "plasabas-general-admin"
 
   default_tags {
     tags = {
